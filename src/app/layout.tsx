@@ -3,7 +3,7 @@ import { Hanken_Grotesk, Libre_Caslon_Text } from "next/font/google";
 import "./globals.css";
 import "@/styles/art.css";
 import { JsonLd } from "@/components/primitives/JsonLd";
-import { siteSchema } from "@/lib/seo";
+import { OG_IMAGE, siteSchema } from "@/lib/seo";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
 const hanken = Hanken_Grotesk({
@@ -26,6 +26,8 @@ export const metadata: Metadata = {
   title: { default: "KUSP | Urban Planning, Spatial Intelligence & Infrastructure", template: "%s" },
   description: SITE_DESCRIPTION,
   applicationName: "KUSP",
+  openGraph: { type: "website", siteName: "KUSP", images: [OG_IMAGE] },
+  twitter: { card: "summary_large_image", images: [{ url: OG_IMAGE.url, alt: OG_IMAGE.alt }] },
 };
 
 export const viewport: Viewport = {

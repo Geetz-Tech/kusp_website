@@ -5,6 +5,7 @@ import "@/styles/type.css";
 import "@/styles/content.css";
 import "@/styles/motion.css";
 import "@/styles/experience-story.css";
+import "@/styles/dark-close.css";
 import { PageShell } from "@/components/layout/PageShell";
 import { ExperiencePage } from "@/components/pages/ExperiencePage";
 import { pageMetadata, pageSchema } from "@/lib/seo";

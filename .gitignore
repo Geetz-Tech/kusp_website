@@ -30,3 +30,7 @@ Thumbs.db
 .vscode/
 .idea/
 .vercel
+
+# internal design / assistant notes (kept on disk, not part of the public source)
+KUSP_final_design_handoff/
+AGENTS.md

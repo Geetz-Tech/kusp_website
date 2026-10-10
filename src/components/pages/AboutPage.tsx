@@ -1,7 +1,7 @@
 import type React from "react";
 import { ActionLink } from "@/components/primitives/ActionLink";
 import { Eyebrow, SchematicTag, SectionLabel } from "@/components/primitives/SectionLabel";
-import { StateButton, StateGroup, StatePanel } from "@/components/primitives/StateGroup";
+import { StateGroup } from "@/components/primitives/StateGroup";
 import { DISCIPLINES, PARTNER_COPY, PHILOSOPHY_PAIRS, WHY_KUSP } from "@/lib/page-data";
 import { DisciplineField } from "@/components/art/AboutArt";
 import { AboutReveal } from "@/components/about/AboutReveal";
@@ -38,28 +38,22 @@ export function AboutPage() {
             <h2 id="manifesto-title">
               Focused, viable<br /><em>and scalable.</em>
             </h2>
-            {/* Mission — PDF p.3, verbatim */}
-            <p className="body-copy">
-              We are committed to delivering focused, commercially viable and scalable planning solutions that create measurable value — integrating spatial intelligence, economic strategy and environmental stewardship to empower governments, developers and communities.
-            </p>
-            <div className="paired-controls" role="group" aria-label="Mission and design philosophy">
-              {PHILOSOPHY_PAIRS.map((pair, i) => (
-                <StateButton key={pair.id} value={pair.id} className="pair-control">
-                  <span>{String(i + 1).padStart(2, "0")}</span>
-                  {pair.label}
-                </StateButton>
-              ))}
-            </div>
           </div>
-          <div>
-            {PHILOSOPHY_PAIRS.map((pair) => (
-              <StatePanel key={pair.id} value={pair.id} className="pair-panel">
-                <h3>{pair.label.toUpperCase()}</h3>
-                <p>{pair.copy}</p>
-              </StatePanel>
-            ))}
-          </div>
+          {/* Mission — PDF p.3, verbatim */}
+          <p className="body-copy intro-mission">
+            We are committed to delivering focused, commercially viable and scalable planning solutions that create measurable value — integrating spatial intelligence, economic strategy and environmental stewardship to empower governments, developers and communities.
+          </p>
         </div>
+        {/* All three principles and their statements are always visible: a ledger, no selection needed */}
+        <ol className="pair-ledger" aria-label="Mission and design philosophy">
+          {PHILOSOPHY_PAIRS.map((pair, i) => (
+            <li key={pair.id} className="pair-row">
+              <span className="pair-row__n">{String(i + 1).padStart(2, "0")}</span>
+              <h3 className="pair-row__t">{pair.label}</h3>
+              <p className="pair-row__c">{pair.copy}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section className="page-section discipline-field" data-header-tone="light" aria-labelledby="disciplines-title">

@@ -5,6 +5,7 @@ import "@/styles/type.css";
 import "@/styles/content.css";
 import "@/styles/motion.css";
 import "@/styles/about-refine.css";
+import "@/styles/dark-close.css";
 import { PageShell } from "@/components/layout/PageShell";
 import { AboutPage } from "@/components/pages/AboutPage";
 import { pageMetadata, pageSchema } from "@/lib/seo";
