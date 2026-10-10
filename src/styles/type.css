@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Typography correction — every major heading uses the Hero's editorial serif
+   (Libre Caslon Text). Hanken Grotesk stays for body, UI, labels and indices.
+   Variation comes from size, breaks and emphasis colour/style, not font family.
+   Gold italic is reserved for the Hero and a few dark-field signature lines.
+   ========================================================================== */
+
+/* ---------- Home ---------- */
+.kp-home :is(.practice-heading, .why-heading, .experience-intro, .cta-copy, .sectors-heading, .framework-heading, .who-copy, .insights-copy) h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -.055em;
+  line-height: .9;
+}
+/* 03 Lenses: burgundy italic keyword */
+.kp-home .practice-heading h2 em { display: inline; color: var(--burgundy); font-style: italic; font-weight: 400; }
+/* 04 Framework: burgundy roman */
+.kp-home .framework-heading h2 em { color: var(--burgundy); font-style: normal; }
+/* 05 Sectors: landscape green roman (approved sector emphasis) */
+.kp-home .sectors-heading h2 { font-size: clamp(2.8rem, 4.5vw, 5rem); }
+.kp-home .sectors-heading h2 em { color: var(--green); font-style: normal; }
+/* 06 Why KUSP: burgundy roman on its own line */
+.kp-home .why-heading h2 em { display: block; color: var(--burgundy); font-style: normal; font-weight: 400; }
+/* 07 Evidence: burgundy italic */
+.kp-home .experience-intro h2 em { display: inline; color: var(--burgundy); font-style: italic; font-weight: 400; }
+/* 09 Resolve: burgundy italic, own line */
+.kp-home .cta-copy h2 em { display: block; color: var(--burgundy); font-style: italic; font-weight: 400; }
+/* Dark-field signatures keep gold italic: 02 Who We Are, 08 Insights */
+
+/* ---------- Page set ---------- */
+.kp-page :is(h1, h2) { font-family: var(--serif); font-weight: 400; }
+.kp-page .sectors-heading h1 { font-family: var(--serif); font-weight: 400; letter-spacing: -.055em; line-height: .9; font-size: clamp(3.1rem, 5.2vw, 6rem); }
+.kp-page .about-why h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.055em; line-height: .9; }
+.kp-page .about-why h2 em { display: block; color: var(--burgundy); font-style: italic; }
+.kp-page .discipline-field h2 em { color: var(--burgundy); font-style: normal; }
+.kp-page .theme-focus h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.04em; line-height: 1; }
+.kp-page .form-layout h2 em { color: var(--gold); font-style: normal; }
+.kp-page .lens-detail h2 { letter-spacing: -.03em; line-height: 1; }
+
+@media (max-width: 520px) {
+  .kp-home :is(.practice-heading, .why-heading, .experience-intro, .cta-copy, .sectors-heading) h2 { font-size: 2.55rem; }
+  .kp-page .sectors-heading h1 { font-size: 2.75rem; }
+}

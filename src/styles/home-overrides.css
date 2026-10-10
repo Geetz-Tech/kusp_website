@@ -1,0 +1,18 @@
+/* Production adjustments to the approved Home prototype (documented deviations) */
+.kp-home .action { min-height: 44px; align-items: center; }
+.kp-home .evidence-sheet { box-shadow: none; }
+@media (max-width: 900px) {
+  .kp-home .reading-control { display: inline-flex; align-items: flex-end; min-height: 44px; }
+  .kp-home .lens-control { display: flex; align-items: flex-end; min-height: 44px; }
+}
+@media (max-width: 520px) {
+  .kp-home .reading-control { font-size: .6rem; }
+}
+
+.kp-home ul.insight-index { margin: 0; padding-left: 0; list-style: none; }
+.kp-home .insight-index li { list-style: none; }
+
+/* UAT: stacked hero — the vertical hairline ran through headline and CTAs */
+@media (max-width: 900px) {
+  .kp-home .hero::before { display: none; }
+}

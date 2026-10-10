@@ -1,0 +1,188 @@
+/* Tailwind theme + utilities only: the approved prototypes were drawn against browser-default element metrics, so preflight is intentionally skipped. */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* ==========================================================================
+   KUSP design tokens — canonical values from the final handoff package
+   ========================================================================== */
+:root {
+  --ivory: #f1ecdf;
+  --paper: #e3dccb;
+  --ink: #171614;
+  --burgundy: #6b1f32;
+  --burgundy-deep: #42111d;
+  --gold: #b99352;
+  --green: #718168;
+  --blue: #8fadb1;
+  --muted: #5d584f; /* darkened from #746f64 for WCAG AA 4.5:1 on all light fields */
+  --white: #ffffff;
+  --line: rgba(23, 22, 20, 0.24);
+  --pale-line: rgba(241, 236, 223, 0.24);
+  --serif: var(--font-caslon), "Libre Caslon Text", Georgia, serif;
+  --sans: var(--font-hanken), "Hanken Grotesk", Arial, sans-serif;
+
+  /* Grid + header */
+  --margin-x: 4.5vw;
+  --header-h: 82px;
+  --grid-gap: 20px;
+}
+
+@theme inline {
+  --color-ivory: var(--ivory);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-burgundy: var(--burgundy);
+  --color-burgundy-deep: var(--burgundy-deep);
+  --color-gold: var(--gold);
+  --color-green: var(--green);
+  --color-blue: var(--blue);
+  --color-muted: var(--muted);
+  --font-serif: var(--serif);
+  --font-sans: var(--sans);
+}
+
+@media (max-width: 800px) {
+  :root { --margin-x: 24px; --header-h: 72px; }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--header-h); }
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea, a { font: inherit; }
+button { color: inherit; cursor: pointer; }
+button, input, select, textarea { border-radius: 0; }
+a { color: inherit; text-decoration: none; }
+::selection { color: var(--ivory); background: var(--burgundy); }
+
+/* Visible focus on every interactive surface (the prototype relied on colour alone) */
+.kp-home :focus-visible,
+.kp-page :focus-visible,
+.site-header :focus-visible,
+.site-footer :focus-visible,
+.mobile-nav :focus-visible {
+  outline: 2px solid currentColor !important;
+  outline-offset: 4px !important;
+}
+.site-header[data-tone="dark"] :focus-visible { outline-color: var(--gold) !important; }
+.kp-page .form-field input:focus-visible,
+.kp-page .form-field select:focus-visible,
+.kp-page .form-field textarea:focus-visible { outline-color: var(--gold) !important; outline-offset: 2px !important; }
+
+.skip-link {
+  position: fixed; z-index: 100; top: 8px; left: 8px; padding: 12px 16px;
+  background: var(--burgundy); color: var(--ivory);
+  font-size: .65rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* ==========================================================================
+   Header — 82px desktop / 72px mobile, ivory <-> near-black adaptive tone
+   ========================================================================== */
+.site-header { position: fixed; z-index: 60; top: 0; right: 0; left: 0; height: var(--header-h); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--margin-x); border-bottom: 1px solid rgba(23,22,20,.13); background: var(--ivory); transition: background-color .25s ease, border-color .25s ease; }
+/* retired: the logo datum replaces this accent rule */
+.site-header::after { content: none; }
+.site-header[data-tone="dark"] { border-color: rgba(241,236,223,.22); background: var(--ink); }
+.wordmark { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; }
+.site-header nav { display: flex; align-items: center; gap: 17px; }
+.site-header nav a { position: relative; padding: 8px 0; color: var(--ink); font-size: .55rem; font-weight: 700; letter-spacing: .1em; text-decoration: none; text-transform: uppercase; }
+.site-header nav a::after { content: ""; position: absolute; right: 0; bottom: 1px; left: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
+.site-header nav a:hover::after, .site-header nav a:focus-visible::after, .site-header nav a[aria-current="page"]::after { transform: scaleX(1); }
+.site-header nav a:hover { color: var(--burgundy); }
+.site-header[data-tone="dark"] nav a { color: var(--ivory); }
+.site-header[data-tone="dark"] nav a:hover { color: var(--gold); }
+
+.menu-mark { display: none; width: 44px; height: 44px; padding: 0; border: 0; background: none; align-items: center; justify-content: center; flex-direction: column; color: var(--burgundy); }
+.menu-mark span { display: block; width: 20px; height: 1px; margin: 4px 0; background: currentColor; transition: transform .25s ease; }
+.menu-mark[aria-expanded="true"] span:first-child { transform: translateY(4.5px) rotate(45deg); }
+.menu-mark[aria-expanded="true"] span:last-child { transform: translateY(-4.5px) rotate(-45deg); }
+.site-header[data-tone="dark"] .menu-mark { color: var(--ivory); }
+
+@media (max-width: 1100px) {
+  .site-header nav { gap: 11px; }
+  .site-header nav a { font-size: .48rem; }
+}
+@media (max-width: 800px) {
+  .site-header nav { display: none; }
+  .menu-mark { display: inline-flex; }
+}
+
+/* Mobile navigation panel */
+.mobile-nav { position: fixed; z-index: 55; inset: var(--header-h) 0 0 0; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 24px 36px; overflow-y: auto; background: var(--ink); color: var(--ivory); }
+.mobile-nav ol { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--pale-line); }
+.mobile-nav li { border-bottom: 1px solid var(--pale-line); }
+.mobile-nav a.mobile-nav__link { display: flex; align-items: baseline; gap: 16px; min-height: 56px; padding: 14px 0; color: var(--ivory); font-size: 1.35rem; font-weight: 500; letter-spacing: -.03em; }
+.mobile-nav a.mobile-nav__link span { width: 26px; color: var(--gold); font-size: .55rem; font-weight: 700; letter-spacing: .13em; }
+.mobile-nav a[aria-current="page"] { color: var(--gold); }
+.mobile-nav__foot { display: flex; flex-direction: column; gap: 22px; margin-top: 32px; }
+.mobile-nav__foot p { margin: 0; color: rgba(241,236,223,.58); font-size: .55rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.mobile-nav .mobile-nav__cta { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; gap: 16px; padding: 11px 15px; background: var(--burgundy); color: var(--ivory); font-size: .62rem; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer { min-height: 230px; display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; padding: 52px var(--margin-x) 40px; border-top: 1px solid var(--line); background: var(--paper); }
+.footer-brand { display: inline-flex; align-items: flex-end; padding: 18px 0 0; }
+.footer-note { color: var(--muted); font-size: .56rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.site-footer nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; }
+.site-footer nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-size: .58rem; font-weight: 700; letter-spacing: .1em; text-decoration: none; text-transform: uppercase; }
+.site-footer nav a:hover { color: var(--burgundy); }
+.footer-note { max-width: 260px; text-align: right; line-height: 1.5; }
+@media (max-width: 800px) {
+  .site-footer { align-items: flex-start; flex-direction: column; padding: 42px 24px; }
+  .site-footer nav { justify-content: flex-start; }
+  .footer-note { text-align: left; }
+}
+
+/* ==========================================================================
+   Reduced motion — complete static end states are kept; only motion is removed
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* ==========================================================================
+   Brand logo — frozen Concept A / Datum (see brand/LOGO-SPEC.md)
+   lockup min 280px, wordmark min 96px. Clear space = half the K height (K = 36px at lockup 280).
+   ========================================================================== */
+.brand-logo { display: inline-flex; line-height: 0; }
+.brand-logo img { display: block; height: auto; max-width: none; }
+.brand-logo img.brand-logo__light { display: none; }
+.brand-logo__narrow { display: none; }
+/* header: lockup > 1100px, wordmark <= 1100px (120px on mobile) */
+.brand-logo--header .brand-logo__wide img { width: 280px; }
+.brand-logo--header .brand-logo__narrow img { width: 132px; }
+/* tone switching (header section tone / dark surfaces) */
+.site-header[data-tone="dark"] .brand-logo img.brand-logo__ink { display: none; }
+.site-header[data-tone="dark"] .brand-logo img.brand-logo__light { display: block; }
+@media (max-width: 1100px) {
+  .brand-logo--header .brand-logo__wide { display: none; }
+  .brand-logo--header .brand-logo__narrow { display: inline-flex; }
+}
+@media (max-width: 800px) {
+  .brand-logo--header .brand-logo__narrow img { width: 120px; }
+}
+/* footer (paper ground): lockup on wide, wordmark below 800px */
+.brand-logo--footer .brand-logo__wide img { width: 280px; }
+.brand-logo--footer .brand-logo__narrow img { width: 120px; }
+@media (max-width: 800px) {
+  .brand-logo--footer .brand-logo__wide { display: none; }
+  .brand-logo--footer .brand-logo__narrow { display: inline-flex; }
+}
+

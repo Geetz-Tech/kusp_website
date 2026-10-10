@@ -1,0 +1,26 @@
+/* Resolve: calm high aerial. Distinct drawing grammar from the hero model. */
+.kp-home .final-plan { top: 8%; right: -2%; width: min(1060px, 76vw); height: 66%; transform: none; }
+.kp-home .final-plan .masterplan-svg { transform: none; overflow: visible; }
+.kp-home .final-plan .masterplan { animation: none; }
+.kp-home .ae-board { fill: #d8d0bc; }
+.kp-home .ae-plate { fill: #ebe5d4; stroke: #8b8272; stroke-width: 1; }
+.kp-home .ae-park { fill: rgba(113,129,104,.42); stroke: none; }
+.kp-home .ae-lake { fill: #a5bcbf; stroke: none; }
+.kp-home .ae-lake-edge { fill: none; stroke: rgba(107,31,50,.0); }
+.kp-home .ae-promenade { fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-dasharray: 2 6; }
+.kp-home .ae-avenue { fill: none; stroke: var(--burgundy); stroke-width: 4; }
+.kp-home .ae-street { fill: none; stroke: #b4ac9d; stroke-width: 3; }
+.kp-home .ae-wall { fill: #a79e8b; stroke: none; }
+.kp-home .ae-wall-r { fill: #c6bca9; }
+.kp-home .ae-roof { fill: #f4efe1; stroke: #71695e; stroke-width: 1; }
+.kp-home .ae-court { fill: #dcd5c2; stroke: #71695e; stroke-width: .8; }
+.kp-home .ae-trees circle { fill: #687a60; opacity: .88; }
+.kp-home .ae-pavilion circle:first-child { fill: none; stroke: var(--burgundy); stroke-width: 1.6; }
+.kp-home .ae-pavilion circle:last-child { fill: var(--burgundy); }
+.kp-home .ae-datum { fill: none; stroke: var(--burgundy); stroke-width: 2; }
+@media (max-width: 900px) {
+  .kp-home .final-plan { top: 7%; right: -12%; width: 118vw; height: 52%; }
+}
+@media (max-width: 520px) {
+  .kp-home .final-plan { right: -22%; width: 135vw; height: 44%; }
+}

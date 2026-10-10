@@ -1,0 +1,210 @@
+/* ==========================================================================
+   KUSP drawing system — shared material palette for SVG studies
+   warm paper / ivory board / graphite lines / burgundy decisions / gold infrastructure
+   ========================================================================== */
+:root {
+  --art-board: #e9e3d3;
+  --art-board-2: #ddd5c2;
+  --art-graphite: #3a3732;
+  --art-grey: #8e877a;
+  --art-grey-2: #b7afa1;
+  --art-water: #94afb3;
+  --art-green: #7a8a70;
+  --art-green-2: rgba(113, 129, 104, .42);
+}
+
+svg.ty-svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.ty-svg path, .ty-svg circle, .ty-svg ellipse { vector-effect: none; }
+
+/* ---------- PLAN mode: line drawing on near-black ---------- */
+.typology--plan .ty-ground { fill: none; stroke: rgba(241,236,223,.22); stroke-width: 1; }
+.typology--plan .ty-shadow { fill: rgba(0,0,0,.45); }
+.typology--plan .ty-bd { fill: rgba(241,236,223,.1); stroke: rgba(241,236,223,.82); stroke-width: 1.1; }
+.typology--plan .ty-bd2 { fill: rgba(185,147,82,.22); stroke: var(--gold); stroke-width: 1.4; }
+.typology--plan .ty-court { fill: rgba(23,22,20,.6); stroke: rgba(241,236,223,.35); stroke-width: .6; }
+.typology--plan .ty-grn, .typology--plan .ty-wetland { fill: rgba(113,129,104,.38); stroke: var(--art-green); stroke-width: 1; }
+.typology--plan .ty-wat { fill: rgba(143,173,177,.5); stroke: var(--blue); stroke-linecap: round; }
+.typology--plan path.ty-wat:not([stroke-width]) { stroke-width: 1; }
+.typology--plan .ty-rd1 { fill: none; stroke: rgba(241,236,223,.3); stroke-linecap: butt; }
+.typology--plan .ty-rd2 { fill: none; stroke: rgba(241,236,223,.22); }
+.typology--plan .ty-rd3 { fill: none; stroke: rgba(241,236,223,.12); }
+.typology--plan .ty-path { fill: none; stroke: var(--gold); stroke-dasharray: 3 4; }
+.typology--plan .ty-tree { fill: var(--art-green); }
+.typology--plan .ty-rail { fill: none; stroke: rgba(241,236,223,.7); }
+.typology--plan .ty-ties { fill: none; stroke: rgba(241,236,223,.45); stroke-dasharray: 1 5; }
+.typology--plan .ty-pav, .typology--plan .ty-yard { fill: rgba(241,236,223,.05); stroke: rgba(241,236,223,.25); stroke-width: .8; stroke-dasharray: 3 3; }
+.typology--plan .ty-stripe { fill: none; stroke: rgba(241,236,223,.35); }
+.typology--plan .ty-node { fill: var(--gold); stroke: var(--gold); }
+.typology--plan path.ty-node { fill: none; }
+.typology--plan .ty-dash { fill: none; stroke: var(--gold); stroke-dasharray: 6 5; }
+.typology--plan .ty-runway { fill: rgba(241,236,223,.12); stroke: rgba(241,236,223,.6); stroke-width: 1; }
+.typology--plan .ty-loop { fill: none; stroke: var(--burgundy); }
+.typology--plan .ty-solar { fill: rgba(143,173,177,.32); stroke: var(--blue); stroke-width: .8; }
+.typology--plan .ty-tx { fill: none; stroke: var(--gold); stroke-dasharray: 7 4; }
+.typology--plan .ty-pylon { fill: var(--burgundy); stroke: var(--ivory); stroke-width: 1; }
+.typology--plan .ty-tank { fill: rgba(143,173,177,.25); stroke: var(--blue); }
+.typology--plan .ty-pipe { fill: none; stroke: var(--blue); }
+.typology--plan .ty-turb { fill: none; stroke: rgba(241,236,223,.7); stroke-linecap: round; }
+.typology--plan .ty-fence { fill: none; stroke: rgba(241,236,223,.5); stroke-width: 1; stroke-dasharray: 10 3 2 3; }
+.typology--plan .ty-axis { fill: none; stroke: var(--burgundy); stroke-dasharray: 10 4; }
+.typology--plan .ty-terrace { fill: none; stroke: rgba(185,147,82,.55); stroke-width: 1; }
+.typology--plan .ty-flood { fill: rgba(143,173,177,.12); stroke: rgba(143,173,177,.5); stroke-dasharray: 4 3; stroke-width: 1; }
+.typology--plan .ty-wallfill { fill: rgba(241,236,223,.03); }
+.typology--plan .ty-wall { fill: none; stroke: var(--gold); stroke-width: 3; }
+.typology--plan .ty-bastion { fill: var(--ink); stroke: var(--gold); }
+.typology--plan .ty-lane { fill: none; stroke: rgba(241,236,223,.2); }
+.typology--plan .ty-steps { fill: none; stroke: var(--gold); }
+.typology--plan .ty-grid { fill: none; stroke: rgba(143,173,177,.25); }
+.typology--plan .ty-cover { fill: none; stroke: var(--blue); stroke-dasharray: 2 5; }
+.typology--plan .ty-ringroad { fill: none; stroke: rgba(241,236,223,.4); stroke-width: 6; }
+.typology--plan .ty-fiber { fill: none; stroke: var(--burgundy); }
+.typology--plan .ty-note { fill: var(--gold); font: 700 13px var(--sans); letter-spacing: 2px; }
+
+/* ---------- AXO mode: physical model board ---------- */
+.typology--axo .ty-ground { fill: var(--art-board); stroke: #6f685c; stroke-width: 1; }
+.typology--axo .ty-roof { fill: #f6f1e4; stroke: #6f685c; stroke-width: .8; stroke-linejoin: round; }
+.typology--axo .ty-wall { stroke: #6f685c; stroke-width: .6; stroke-linejoin: round; }
+.typology--axo .ty-wall-l { fill: #b4ab98; }
+.typology--axo .ty-wall-r { fill: #d3cab7; }
+.typology--axo .ty-bd2 .ty-roof { fill: #efe2d4; }
+.typology--axo .ty-bd2 .ty-wall-l { fill: #8a5a63; }
+.typology--axo .ty-bd2 .ty-wall-r { fill: #a7737c; }
+.typology--axo .ty-solar .ty-roof { fill: #7f979b; stroke: #4f5f62; }
+.typology--axo .ty-solar .ty-wall-l, .typology--axo .ty-solar .ty-wall-r { fill: #55656a; }
+.typology--axo .ty-court { fill: #d9d1bd; }
+.typology--axo .ty-grn { fill: #b9c0a6; stroke: #7a8a70; stroke-width: .6; }
+.typology--axo .ty-wetland { fill: rgba(143,173,177,.7); stroke: #6f8f74; stroke-width: .6; }
+.typology--axo .ty-wat { fill: var(--art-water); stroke: #7f9ea3; stroke-linecap: round; }
+.typology--axo .ty-rd1 { fill: none; stroke: #a59d8f; }
+.typology--axo .ty-rd2 { fill: none; stroke: #b9b1a2; }
+.typology--axo .ty-rd3 { fill: none; stroke: #cbc3b3; }
+.typology--axo .ty-path { fill: none; stroke: var(--gold); stroke-dasharray: 3 3; }
+.typology--axo .ty-tree { fill: #6f8264; stroke: #55664c; stroke-width: .5; }
+.typology--axo .ty-rail { fill: none; stroke: var(--art-graphite); }
+.typology--axo .ty-ties { fill: none; stroke: var(--art-graphite); stroke-dasharray: 1 4; opacity: .6; }
+.typology--axo .ty-pav, .typology--axo .ty-yard { fill: #dcd4c0; stroke: #a59d8f; stroke-width: .6; }
+.typology--axo .ty-stripe { fill: none; stroke: #a59d8f; }
+.typology--axo .ty-node { fill: var(--burgundy); stroke: var(--burgundy); }
+.typology--axo path.ty-node { fill: none; }
+.typology--axo .ty-dash { fill: none; stroke: var(--gold); stroke-dasharray: 6 4; }
+.typology--axo .ty-runway { fill: #c9c1ae; stroke: #6f685c; stroke-width: .7; }
+.typology--axo .ty-loop { fill: none; stroke: var(--burgundy); }
+.typology--axo .ty-tx { fill: none; stroke: var(--burgundy); stroke-dasharray: 6 3; }
+.typology--axo .ty-pylon { fill: var(--burgundy); }
+.typology--axo .ty-tank { fill: #b8cacc; stroke: #6f8f94; }
+.typology--axo .ty-pipe { fill: none; stroke: #6f8f94; }
+.typology--axo .ty-turb { fill: none; stroke: var(--art-graphite); stroke-linecap: round; }
+.typology--axo .ty-fence { fill: none; stroke: #6f685c; stroke-width: 1; stroke-dasharray: 6 2; }
+.typology--axo .ty-axis { fill: none; stroke: var(--burgundy); }
+.typology--axo .ty-terrace { fill: #e3dcc8; stroke: #9d8e6c; stroke-width: .8; }
+.typology--axo .ty-flood { fill: rgba(143,173,177,.32); stroke: none; }
+.typology--axo .ty-wallfill { fill: #e1d9c5; }
+.typology--axo .ty-wall:not(.ty-wall-l):not(.ty-wall-r) { fill: none; stroke: var(--gold); stroke-width: 3; }
+.typology--axo .ty-bastion { fill: #e1d9c5; stroke: var(--gold); }
+.typology--axo .ty-lane { fill: none; stroke: #bdb5a6; }
+.typology--axo .ty-steps { fill: none; stroke: var(--gold); }
+.typology--axo .ty-grid { fill: none; stroke: rgba(111,143,148,.45); }
+.typology--axo .ty-cover { fill: none; stroke: #6f8f94; stroke-dasharray: 2 4; }
+.typology--axo .ty-ringroad { fill: none; stroke: #a59d8f; stroke-width: 5; }
+.typology--axo .ty-fiber { fill: none; stroke: var(--burgundy); }
+
+/* Typology stacks */
+.ty-stack { position: absolute; inset: 0; }
+.ty-frame { position: absolute; inset: 0 0 26px; opacity: 0; transform: translateY(8px); transition: opacity .55s cubic-bezier(.2,.7,.2,1), transform .75s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
+.ty-frame.is-on { opacity: 1; transform: none; }
+.ty-stack--axo .ty-frame { inset: 0 0 22px; }
+
+/* ---------- Study sheets ---------- */
+svg.study { display: block; width: 100%; height: 100%; }
+.study .st-sheet { fill: #f5f0e4; }
+.study--dark .st-sheet { fill: transparent; }
+.study text { font: 700 8px var(--sans); letter-spacing: 1.1px; fill: var(--art-graphite); }
+.study--dark text { fill: var(--gold); }
+.study .st-rule { stroke: rgba(23,22,20,.35); stroke-width: .6; }
+.study--dark .st-rule { stroke: rgba(241,236,223,.25); }
+.study .st-scale { fill: var(--art-graphite); }
+.study .st-scale--o { fill: none; stroke: var(--art-graphite); stroke-width: .6; }
+.study .st-north path { fill: var(--burgundy); }
+.study--dark .st-scale { fill: var(--ivory); }
+.study--dark .st-scale--o { stroke: var(--ivory); fill: none; }
+
+.study .st-contour { fill: none; stroke: var(--gold); stroke-width: .8; opacity: .8; }
+.study .st-contour.st-dark { stroke: var(--art-graphite); stroke-dasharray: 3 3; opacity: .6; }
+.study .st-water { fill: none; stroke: var(--art-water); stroke-width: 4; stroke-linecap: round; }
+.study .st-water.st-thin { stroke-width: 1.6; }
+.study .st-water.st-main { stroke-width: 5; }
+.study .st-boundary { fill: none; stroke: var(--art-graphite); stroke-width: .9; stroke-dasharray: 9 3 2 3; }
+.study .st-corridor { stroke: var(--burgundy); stroke-width: 2.6; fill: none; }
+.study .st-link { stroke: var(--art-graphite); stroke-width: .8; fill: none; }
+.study .st-hatch path { stroke: var(--burgundy); stroke-width: .7; opacity: .7; }
+.study .st-node { fill: #f5f0e4; stroke: var(--art-graphite); stroke-width: 1; }
+.study .st-node--major { fill: var(--burgundy); stroke: var(--burgundy); }
+.study .st-ring { fill: none; stroke: var(--gold); stroke-width: 1.4; }
+
+.study .st-gridbox { fill: none; stroke: rgba(23,22,20,.25); stroke-width: .6; }
+.study .st-cell { stroke: none; }
+.study .st-c1 { fill: rgba(113,129,104,.25); }
+.study .st-c2 { fill: rgba(185,147,82,.32); }
+.study .st-c3 { fill: rgba(185,147,82,.62); }
+.study .st-c4 { fill: rgba(107,31,50,.7); }
+.study .st-cross path { stroke: var(--art-graphite); stroke-width: .8; }
+.study .st-cross circle { fill: #f5f0e4; stroke: var(--art-graphite); stroke-width: .8; }
+
+.study .st-street { fill: none; stroke: rgba(23,22,20,.3); stroke-width: .8; }
+.study .st-arterial { fill: none; stroke: var(--art-graphite); stroke-width: 2.6; }
+.study .st-iso { fill: none; stroke: var(--gold); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.study .st-iso0 { fill: rgba(185,147,82,.16); }
+.study .st-transit { fill: none; stroke: var(--burgundy); stroke-width: 3.2; }
+.study .st-station { fill: #f5f0e4; stroke: var(--burgundy); stroke-width: 2.2; }
+
+.study .st-par { stroke: #f5f0e4; stroke-width: 1; }
+.study .st-i1 { fill: #e2dac6; }
+.study .st-i2 { fill: rgba(185,147,82,.45); }
+.study .st-i3 { fill: rgba(161,72,92,.6); }
+.study .st-i4 { fill: var(--burgundy); }
+.study .st-phase { fill: none; stroke: var(--art-graphite); stroke-width: 1; stroke-dasharray: 6 3; }
+.study .st-tag { font-size: 7.5px; fill: var(--art-graphite); }
+
+.study .st-park { fill: rgba(113,129,104,.35); stroke: none; }
+.study .st-block { stroke: var(--art-graphite); stroke-width: .8; }
+.study .st-res { fill: #ebe4d3; }
+.study .st-mixed { fill: rgba(185,147,82,.45); }
+.study .st-civic { fill: rgba(107,31,50,.75); }
+.study .st-court { fill: #f5f0e4; stroke: rgba(23,22,20,.35); stroke-width: .5; }
+.study .st-tree { fill: #6f8264; }
+
+.study .st-catch { fill: rgba(113,129,104,.08); stroke: var(--green); stroke-width: 1.6; stroke-dasharray: 7 4; }
+.study .st-greenway { fill: none; stroke: rgba(113,129,104,.35); stroke-width: 16; stroke-linecap: round; }
+.study .st-basin { fill: rgba(143,173,177,.55); stroke: #6f8f94; stroke-width: 1; }
+.study .st-chev { fill: none; stroke: #6f8f94; stroke-width: 1; }
+
+.study .st-gridline { stroke: rgba(23,22,20,.14); stroke-width: .6; }
+.study .st-box { fill: #f5f0e4; stroke: var(--art-graphite); stroke-width: 1; }
+.study .st-box--key { fill: var(--burgundy); stroke: var(--burgundy); }
+.study .st-flow { fill: none; stroke: var(--art-graphite); stroke-width: 1; }
+.study .st-flow--back { stroke: var(--burgundy); stroke-dasharray: 3 3; }
+.study .st-diamond { fill: var(--gold); }
+.study .st-bar { stroke: none; }
+.study .st-bar0 { fill: var(--burgundy); }
+.study .st-bar1 { fill: var(--gold); }
+.study .st-bar2 { fill: var(--green); }
+
+.study .st-groundfill { fill: #ddd4c0; }
+.study .st-ground { fill: none; stroke: var(--art-graphite); stroke-width: 2; }
+.study .st-water-body { fill: var(--art-water); }
+.study .st-watertable { fill: none; stroke: #6f8f94; stroke-width: 1; stroke-dasharray: 6 4; }
+.study .st-build rect { fill: #f5f0e4; stroke: var(--art-graphite); stroke-width: 1.2; }
+.study .st-build path { stroke: rgba(23,22,20,.35); stroke-width: .6; }
+.study .st-treesec path { stroke: var(--art-graphite); stroke-width: 1; }
+.study .st-treesec circle { fill: rgba(113,129,104,.65); }
+.study .st-pipe { fill: none; stroke: var(--burgundy); stroke-width: 1.4; }
+.study .st-dim { fill: none; stroke: var(--art-graphite); stroke-width: .6; }
+
+/* dark-field variants (Experience themes) */
+.study--dark .st-street, .study--dark .st-link, .study--dark .st-gridbox { stroke: rgba(241,236,223,.22); }
+.study--dark .st-arterial, .study--dark .st-ground, .study--dark .st-box, .study--dark .st-flow, .study--dark .st-block, .study--dark .st-build rect, .study--dark .st-boundary { stroke: rgba(241,236,223,.7); }
+.study--dark .st-res, .study--dark .st-court, .study--dark .st-node, .study--dark .st-box, .study--dark .st-station, .study--dark .st-cross circle, .study--dark .st-build rect, .study--dark .st-i1 { fill: transparent; }
+.study--dark .st-groundfill { fill: rgba(241,236,223,.06); }
+.study--dark .st-par { stroke: var(--ink); }
+.study--dark .st-cross path, .study--dark .st-dim, .study--dark .st-treesec path { stroke: rgba(241,236,223,.6); }
+.study .st-radial { stroke-width: 1.4; }

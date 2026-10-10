@@ -1,0 +1,220 @@
+/* ==========================================================================
+   KUSP motion system — planning-logic sequences driven by <Stage data-play>.
+   Rules:
+   - "Hidden" start states exist only under `.js` AND prefers-reduced-motion: no-preference,
+     so content is never hidden without JS and reduced motion always shows final states.
+   - Individual transform properties (translate / scale) are used so motion never fights
+     the approved static transforms (rotations, skews, state shifts).
+   - Paths that draw carry pathLength="1"; only solid strokes are drawn.
+   ========================================================================== */
+:root { --ease: cubic-bezier(.2, .7, .2, 1); --ease-settle: cubic-bezier(.16, .84, .24, 1); }
+
+.stage-fill { position: absolute; inset: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ---------------- HOME / HERO — physical model assembly ---------------- */
+  .kp-home .hero-plan .masterplan { animation: none; }
+  .kp-home .hero-play .terrain-layer { transition: opacity .9s var(--ease), translate 1.1s var(--ease-settle); }
+  .kp-home .hero-play .contour { transition: opacity 1.2s var(--ease) .35s; }
+  .kp-home .hero-play :is(.road-primary, .road-secondary) { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1.3s var(--ease) .45s; }
+  .kp-home .hero-play :is(.road-minor, .plaza) { transition: opacity .9s var(--ease) .8s; }
+  .kp-home .hero-play .river { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1.5s var(--ease) .95s; }
+  .kp-home .hero-play .green-armature { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1.5s var(--ease) 1.15s; }
+  .kp-home .hero-play :is(.river-bank, .park) { transition: opacity .9s var(--ease) 1.25s; }
+  .kp-home .hero-play .tree-field circle { transition: scale .7s var(--ease-settle) calc(1.45s + var(--i) * 9ms); }
+  .kp-home .hero-play .block-layer g { transition: opacity .7s var(--ease) calc(1.75s + var(--i) * 8ms), translate .95s var(--ease-settle) calc(1.75s + var(--i) * 8ms); }
+  .kp-home .hero-play .gold-route { transition: opacity .9s var(--ease) 2.75s; }
+
+  .js .kp-home .hero-play[data-play="ready"] .terrain-layer { opacity: 0; translate: 0 14px; }
+  .js .kp-home .hero-play[data-play="ready"] .contour { opacity: 0; }
+  .js .kp-home .hero-play[data-play="ready"] :is(.road-primary, .road-secondary, .river, .green-armature) { stroke-dashoffset: 1; }
+  .js .kp-home .hero-play[data-play="ready"] :is(.road-minor, .plaza, .river-bank, .park, .gold-route) { opacity: 0; }
+  .js .kp-home .hero-play[data-play="ready"] .tree-field circle { scale: 0; }
+  .js .kp-home .hero-play[data-play="ready"] .block-layer g { opacity: 0; translate: 0 16px; }
+
+  /* ---------------- HOME / WHO — readings bring one system forward ---------------- */
+  .kp-home .reading-plan { transition: transform 1.2s var(--ease); }
+  .kp-home .reading-plan .masterplan svg g { transition: opacity .85s var(--ease), transform .95s var(--ease-settle); }
+  .kp-home .reading-plan[data-read="movement"] { transform: rotate(2deg) translate(-12px, 6px); }
+  .kp-home .reading-plan[data-read="water"] { transform: rotate(1.5deg) translate(8px, -4px); }
+  .kp-home .reading-plan[data-read="fabric"] { transform: rotate(2.5deg) translate(-6px, -8px); }
+  .kp-home .reading-plan[data-read="constraints"] { transform: rotate(1deg) translate(10px, 4px); }
+  .kp-home .reading-plan[data-read="opportunities"] { transform: rotate(2deg) translate(4px, -10px) scale(1.02); }
+
+  /* ---------------- HOME / LENSES — each discipline transforms the place ---------------- */
+  .kp-home .lens-plan[data-lens] .block-layer g { transition: opacity .6s var(--ease) calc(var(--i) * 5ms), transform .85s var(--ease-settle) calc(var(--i) * 5ms); }
+  .kp-home .lens-plan .parcel-layer path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .9s var(--ease); }
+  .kp-home .lens-plan[data-lens="planning"] .parcel-layer path { stroke-dashoffset: 0; transition-delay: .15s; transition-duration: 1.2s; }
+  .kp-home .lens-plan .phasing-layer { opacity: 1; }
+  .kp-home .lens-plan .phase { opacity: 0; transition: opacity .55s var(--ease) calc(var(--i) * 45ms); }
+  .kp-home .lens-plan[data-lens="economics"] .phase { opacity: .5; }
+  .kp-home .lens-plan .gs { opacity: 0; transition: opacity .8s var(--ease); }
+  .kp-home .lens-plan[data-lens="geospatial"] .gs1 { opacity: 1; transition-delay: .1s; }
+  .kp-home .lens-plan[data-lens="geospatial"] .gs2 { opacity: 1; transition-delay: .3s; }
+  .kp-home .lens-plan[data-lens="geospatial"] .gs3 { opacity: 1; transition-delay: .5s; }
+  .kp-home :is(.lens-plan, .framework-plan) .gis-points circle { transform-box: fill-box; transform-origin: center; scale: 0; transition: scale .45s var(--ease-settle) .75s; }
+  .kp-home .lens-plan[data-lens="geospatial"] .gis-points circle,
+  .kp-home .framework-plan[data-framework="analyse"] .gis-points circle { scale: 1; }
+  .kp-home .plan-view .rail { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.3s var(--ease) .2s; }
+  .kp-home .lens-plan[data-lens="infrastructure"] .rail,
+  .kp-home .framework-plan[data-framework="integrate"] .rail { stroke-dashoffset: 0; }
+  .kp-home .plan-view .station { transform-box: fill-box; transform-origin: center; scale: 0; transition: scale .5s var(--ease-settle) calc(.7s + var(--i) * .22s); }
+  .kp-home .lens-plan[data-lens="infrastructure"] .station,
+  .kp-home .framework-plan[data-framework="integrate"] .station { scale: 1; }
+  .kp-home .plan-view .wetland { transform-box: fill-box; transform-origin: center; scale: .35; transition: scale 1s var(--ease-settle) calc(.15s + var(--i) * .12s); }
+  .kp-home .lens-plan[data-lens="sustainability"] .wetland,
+  .kp-home .framework-plan[data-framework="integrate"] .wetland { scale: 1; }
+
+  /* ---------------- HOME / FRAMEWORK — staged transformation ---------------- */
+  .kp-home .framework-plan { transition: transform 1.2s var(--ease); }
+  .kp-home .framework-plan[data-framework="optimise"] { transform: rotate(1deg) scale(.96); }
+  .kp-home .framework-plan[data-framework="deliver"] { transform: rotate(0deg); }
+  .kp-home .framework-plan .scenario { transition: opacity .7s var(--ease), transform 1.15s var(--ease-settle); }
+  .kp-home .framework-plan .scenario-b { transition-delay: .08s; }
+  .kp-home .framework-plan .scenario-p { transition-delay: .16s; }
+  .kp-home .framework-plan .gs { opacity: 0; transition: opacity .7s var(--ease); }
+  .kp-home .framework-plan[data-framework="analyse"] .gs { opacity: 1; }
+  .kp-home .framework-plan[data-framework="analyse"] .gs2 { transition-delay: .2s; }
+  .kp-home .framework-plan[data-framework="analyse"] .gs3 { transition-delay: .4s; }
+  .kp-home .framework-plan .final-layer path:first-child { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.5s var(--ease) .3s; }
+  .kp-home .framework-plan[data-framework="deliver"] .final-layer path:first-child { stroke-dashoffset: 0; }
+
+  /* ---------------- HOME / RESOLVE — calm aerial entry (no assembly) ---------------- */
+  .kp-home .aerial-play .masterplan { transition: opacity 1.7s var(--ease) .1s, translate 2s var(--ease-settle) .1s; }
+  .js .kp-home .aerial-play[data-play="ready"] .masterplan { opacity: 0; translate: 0 22px; }
+
+  /* ---------------- SECTORS — typology resolves progressively on select ---------------- */
+  .ty-frame .ty-marks { opacity: 0; transition: opacity .5s var(--ease); }
+  .ty-frame.is-on .ty-marks { opacity: 1; transition-delay: .12s; }
+  .ty-frame .ty-rise { opacity: 0; translate: 0 8px; transition: opacity .45s var(--ease), translate .7s var(--ease-settle); }
+  .ty-frame.is-on .ty-rise { opacity: 1; translate: 0 0; transition-delay: calc(.22s + min(var(--i) * 12ms, .9s)); }
+  .js [data-play="ready"] .ty-frame.is-on :is(.ty-marks, .ty-rise) { opacity: 0; }
+  .js [data-play="ready"] .ty-frame.is-on .ty-rise { translate: 0 8px; }
+
+  /* ---------------- EXPERTISE — slice + five scene-specific transitions ---------------- */
+  .slice-play .sl-strip { transition: opacity .8s var(--ease) calc(var(--i) * .13s), translate 1s var(--ease-settle) calc(var(--i) * .13s); }
+  .js .slice-play[data-play="ready"] .sl-strip { opacity: 0; translate: 0 22px; }
+
+  .js .lv-scene .ex-rise { opacity: 0; translate: 0 12px; transition: opacity .4s var(--ease), translate .6s var(--ease); }
+  .lens-visual[data-lens="planning"] .lv-play[data-play="in"] .lv-scene--planning .ex-rise { opacity: 1; translate: 0 0; transition: opacity .6s var(--ease) calc(.15s + var(--i) * 14ms), translate .9s var(--ease-settle) calc(.15s + var(--i) * 14ms); }
+
+  .js .lv-scene .ex-grow { transform-box: fill-box; transform-origin: 50% 100%; scale: 1 .04; opacity: 0; transition: scale .4s var(--ease), opacity .3s var(--ease); }
+  .lens-visual[data-lens="economics"] .lv-play[data-play="in"] .lv-scene--economics .ex-grow { scale: 1 1; opacity: 1; transition: scale .9s var(--ease-settle) calc(.12s + var(--i) * 11ms), opacity .4s var(--ease) calc(.12s + var(--i) * 11ms); }
+
+  .js .lv-scene .ex-cell { opacity: 0; transition: opacity .3s var(--ease); }
+  .lens-visual[data-lens="geospatial"] .lv-play[data-play="in"] .lv-scene--geospatial .ex-cell { opacity: 1; transition: opacity .5s var(--ease) calc(var(--i) * 35ms); }
+  .js .lv-scene :is(.ex-select, .ex-contour) { opacity: 0; transition: opacity .4s; }
+  .lens-visual[data-lens="geospatial"] .lv-play[data-play="in"] .lv-scene--geospatial :is(.ex-select, .ex-contour) { opacity: 1; transition: opacity .9s var(--ease) .75s; }
+  .lv-scene .ex-survey { transform-box: fill-box; transform-origin: center; transition: scale .5s var(--ease-settle) 1s; }
+  .js .lv-scene .ex-survey { scale: 0; transition-delay: 0s; }
+  .lens-visual[data-lens="geospatial"] .lv-play[data-play="in"] .lv-scene--geospatial .ex-survey { scale: 1; transition-delay: 1s; }
+
+  .lv-scene :is(.ex-road, .ex-rail) { stroke-dasharray: 1; }
+  .js .lv-scene :is(.ex-road, .ex-rail) { stroke-dashoffset: 1; transition: stroke-dashoffset .4s; }
+  .lens-visual[data-lens="infrastructure"] .lv-play[data-play="in"] .lv-scene--infrastructure .ex-road { stroke-dashoffset: 0; transition: stroke-dashoffset 1.2s var(--ease) .1s; }
+  .lens-visual[data-lens="infrastructure"] .lv-play[data-play="in"] .lv-scene--infrastructure .ex-rail { stroke-dashoffset: 0; transition: stroke-dashoffset 1.3s var(--ease) .35s; }
+  .js .lv-scene :is(.ex-util, .ex-station, .ex-loop) { opacity: 0; transition: opacity .3s; }
+  .lens-visual[data-lens="infrastructure"] .lv-play[data-play="in"] .lv-scene--infrastructure :is(.ex-util, .ex-station, .ex-loop) { opacity: 1; transition: opacity .8s var(--ease) 1s; }
+
+  .lv-scene :is(.ex-river, .ex-trib) { stroke-dasharray: 1; }
+  .js .lv-scene :is(.ex-river, .ex-trib) { stroke-dashoffset: 1; transition: stroke-dashoffset .4s; }
+  .lens-visual[data-lens="sustainability"] .lv-play[data-play="in"] .lv-scene--sustainability .ex-river { stroke-dashoffset: 0; transition: stroke-dashoffset 1.4s var(--ease) .1s; }
+  .lens-visual[data-lens="sustainability"] .lv-play[data-play="in"] .lv-scene--sustainability .ex-trib { stroke-dashoffset: 0; transition: stroke-dashoffset 1s var(--ease) .6s; }
+  .js .lv-scene :is(.ex-tree, .ex-wetland, .ex-greenway) { opacity: 0; transition: opacity .3s; }
+  .lens-visual[data-lens="sustainability"] .lv-play[data-play="in"] .lv-scene--sustainability :is(.ex-wetland, .ex-greenway) { opacity: 1; transition: opacity 1s var(--ease) .5s; }
+  .lens-visual[data-lens="sustainability"] .lv-play[data-play="in"] .lv-scene--sustainability .ex-tree { opacity: 1; transition: opacity .6s var(--ease) calc(.8s + var(--i) * 14ms); }
+
+  /* ---------------- FRAMEWORK PAGE — the strongest motion system ---------------- */
+  .fw-play .fw-board { transition: opacity .9s var(--ease), translate 1.1s var(--ease-settle); }
+  .js .fw-play[data-play="ready"] .fw-board { opacity: 0; translate: 0 18px; }
+
+  .fw-survey { transform-box: fill-box; transform-origin: center; }
+  .js .fw-play .fw-survey { scale: 0; transition: scale .3s; }
+  .stage-display[data-stage="observe"] .fw-play[data-play="in"] .fw-survey { scale: 1; transition: scale .55s var(--ease-settle); }
+  .stage-display[data-stage="observe"] .fw-play[data-play="in"] .fw-survey:nth-child(2) { transition-delay: .5s; }
+  .stage-display[data-stage="observe"] .fw-play[data-play="in"] .fw-survey:nth-child(3) { transition-delay: .62s; }
+  .stage-display[data-stage="observe"] .fw-play[data-play="in"] .fw-survey:nth-child(4) { transition-delay: .74s; }
+  .stage-display[data-stage="observe"] .fw-play[data-play="in"] .fw-survey:nth-child(5) { transition-delay: .86s; }
+  .stage-display[data-stage="observe"] .fw-play[data-play="in"] .fw-survey:nth-child(1) { transition-delay: .38s; }
+
+  .js .fw-play .fw-cell { opacity: 0; transition: opacity .25s; }
+  .stage-display[data-stage="analyse"] .fw-play[data-play="in"] .fw-cell { opacity: 1; transition: opacity .45s var(--ease) calc(.15s + var(--i) * 28ms); }
+  .fw-iso { transform-box: fill-box; transform-origin: center; }
+  .js .fw-play .fw-iso { scale: .3; opacity: 0; transition: scale .3s, opacity .3s; }
+  .stage-display[data-stage="analyse"] .fw-play[data-play="in"] .fw-iso { scale: 1; opacity: 1; transition: scale 1.1s var(--ease-settle) .35s, opacity .6s var(--ease) .35s; }
+  .js .fw-play :is(.fw-constraint, .fw-analysis, .fw-heat) { opacity: 0; transition: opacity .3s; }
+  .stage-display[data-stage="analyse"] .fw-play[data-play="in"] :is(.fw-constraint, .fw-analysis, .fw-heat) { opacity: 1; transition: opacity .8s var(--ease) .9s; }
+
+  .fw-play :is(.fw-spine, .fw-greenband) { stroke-dasharray: 1; }
+  .js .fw-play :is(.fw-spine, .fw-greenband) { stroke-dashoffset: 1; transition: stroke-dashoffset .3s; }
+  .stage-display[data-stage="integrate"] .fw-play[data-play="in"] .fw-greenband { stroke-dashoffset: 0; transition: stroke-dashoffset 1.3s var(--ease) .1s; }
+  .stage-display[data-stage="integrate"] .fw-play[data-play="in"] .fw-spine { stroke-dashoffset: 0; transition: stroke-dashoffset 1.1s var(--ease) .45s; }
+  .fw-node { transform-box: fill-box; transform-origin: center; }
+  .js .fw-play .fw-node { scale: 0; transition: scale .3s; }
+  .stage-display[data-stage="integrate"] .fw-play[data-play="in"] .fw-node { scale: 1; transition: scale .5s var(--ease-settle) calc(1s + var(--i) * .1s); }
+  .js .fw-play :is(.fw-util, .fw-link) { opacity: 0; transition: opacity .3s; }
+  .stage-display[data-stage="integrate"] .fw-play[data-play="in"] :is(.fw-util, .fw-link) { opacity: 1; transition: opacity .8s var(--ease) 1.2s; }
+
+  .fw-mini { transition: translate .4s var(--ease), opacity .3s; }
+  .js .fw-play .fw-mini { opacity: 0; }
+  .js .fw-play .fw-mini--a { translate: 190px 14px; }
+  .js .fw-play .fw-mini--b { translate: 0 14px; }
+  .js .fw-play .fw-mini--p { translate: -190px 14px; }
+  .stage-display[data-stage="optimise"] .fw-play[data-play="in"] .fw-mini { opacity: 1; translate: 0 0; transition: translate 1.15s var(--ease-settle) .2s, opacity .5s var(--ease) .1s; }
+  .js .fw-play :is(.fw-pick, .fw-compare) { opacity: 0; transition: opacity .3s; }
+  .stage-display[data-stage="optimise"] .fw-play[data-play="in"] :is(.fw-pick, .fw-compare) { opacity: 1; transition: opacity .7s var(--ease) 1.25s; }
+
+  .js .fw-play :is(.fw-blk, .fw-court) { opacity: 0; translate: 0 6px; transition: opacity .25s, translate .25s; }
+  .stage-display[data-stage="deliver"] .fw-play[data-play="in"] :is(.fw-blk, .fw-court) { opacity: 1; translate: 0 0; transition: opacity .5s var(--ease) calc(.25s + var(--i) * 30ms), translate .8s var(--ease-settle) calc(.25s + var(--i) * 30ms); }
+  .js .fw-play .fw-tree { opacity: 0; transition: opacity .25s; }
+  .stage-display[data-stage="deliver"] .fw-play[data-play="in"] .fw-tree { opacity: 1; transition: opacity .6s var(--ease) calc(.9s + var(--i) * 10ms); }
+  .fw-deliver .fw-st { stroke-dasharray: 1; }
+  .js .fw-play .fw-deliver .fw-st { stroke-dashoffset: 1; transition: stroke-dashoffset .25s; }
+  .stage-display[data-stage="deliver"] .fw-play[data-play="in"] .fw-deliver .fw-st { stroke-dashoffset: 0; transition: stroke-dashoffset 1.1s var(--ease) .05s; }
+
+  /* Framework hero: the board caught mid-transformation */
+  .split-play .fw-board { transition: opacity 1s var(--ease); }
+  .split-play .fw-cut { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1.2s var(--ease) .6s; }
+  .split-play .fw-board > g:nth-of-type(2) { transition: translate 1.2s var(--ease-settle) .35s, opacity .9s var(--ease) .35s; }
+  .js .split-play[data-play="ready"] .fw-board { opacity: 0; }
+  .js .split-play[data-play="ready"] .fw-cut { stroke-dashoffset: 1; }
+  .js .split-play[data-play="ready"] .fw-board > g:nth-of-type(2) { opacity: 0; translate: 16px 0; }
+
+  /* ---------------- ABOUT — planes register sequentially on the datum ---------------- */
+  .kp-page .plane-play .manifest-layer { transition: opacity .7s var(--ease) calc(.2s + var(--i) * .15s), translate 1s var(--ease-settle) calc(.2s + var(--i) * .15s), transform .55s var(--ease), border-color .35s ease, background .35s ease; }
+  .kp-page .plane-play .manifest-axis { transform-origin: top; transition: scale 1.1s var(--ease) 0s; }
+  .js .kp-page .plane-play[data-play="ready"] .manifest-layer { opacity: 0; translate: -22px 0; }
+  .js .kp-page .plane-play[data-play="ready"] .manifest-axis { scale: 1 0; }
+  .disc-play .discipline-art { transition: opacity 1.4s var(--ease) .1s; }
+  .js .disc-play[data-play="ready"] .discipline-art { opacity: 0; }
+
+  /* ---------------- EVIDENCE WALLS — controlled slide + settle ---------------- */
+  .sheet-play :is(.ev-sheet, .xp-sheet) { transition: opacity .7s var(--ease) calc(.1s + var(--i) * .09s), translate 1.05s var(--ease-settle) calc(.1s + var(--i) * .09s); }
+  .sheet-play .evidence-note { transition: opacity .8s var(--ease) .9s; }
+  .js .sheet-play[data-play="ready"] :is(.ev-sheet, .xp-sheet) { opacity: 0; translate: 0 26px; }
+  .js .sheet-play[data-play="ready"] .evidence-note { opacity: 0; }
+  .kp-page .theme-focus article:not([hidden]) .theme-study { animation: kp-settle .8s var(--ease-settle) both; }
+
+  /* ---------------- INSIGHTS — restrained editorial reveal ---------------- */
+  .journal-play .journal-crop { transition: clip-path 1.1s var(--ease-settle); }
+  .journal-play .journal-cat:nth-child(2) .journal-crop { transition-delay: .12s; }
+  .journal-play .journal-cat:nth-child(3) .journal-crop { transition-delay: .24s; }
+  .js .journal-play[data-play="ready"] .journal-crop { clip-path: inset(100% 0 0 0); }
+
+  /* ---------------- CONTACT — minimal line / contour reveal ---------------- */
+  .field-play :is(.rf-contour, .rf-green, .rf-parcel, .rf-route, .rf-datum) { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .field-play .rf-datum { transition: stroke-dashoffset 1.2s var(--ease) .1s; }
+  .field-play .rf-contour { transition: stroke-dashoffset 1.8s var(--ease) calc(.2s + var(--i) * .2s); }
+  .field-play .rf-green { transition: stroke-dashoffset 1.6s var(--ease) .6s; }
+  .field-play .rf-parcel { transition: stroke-dashoffset 1.1s var(--ease) calc(.9s + var(--i) * .15s); }
+  .field-play .rf-route { transition: stroke-dashoffset 1.5s var(--ease) 1.4s; }
+  .field-play :is(.rf-start, .rf-tick, .rf-label) { transition: opacity .8s var(--ease) 2.4s; }
+  .js .field-play[data-play="ready"] :is(.rf-contour, .rf-green, .rf-parcel, .rf-route, .rf-datum) { stroke-dashoffset: 1; }
+  .js .field-play[data-play="ready"] :is(.rf-start, .rf-tick, .rf-label) { opacity: 0; }
+}
+
+@keyframes kp-settle {
+  from { opacity: 0; translate: 0 12px; }
+  to { opacity: 1; translate: 0 0; }
+}

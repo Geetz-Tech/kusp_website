@@ -1,0 +1,34 @@
+/* ==========================================================================
+   Premium experience — Phase 1
+   (1) 3D masterplan layer over the SVG poster  (2) pinned Five Lenses sequence
+   ========================================================================== */
+
+/* ---- 3D scene host: sits over the SVG; SVG stays as poster/fallback ---- */
+.scene3d { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity .8s ease; }
+.scene3d canvas { display: block; }
+.plan-view[data-scene3d="ready"] > .scene3d { opacity: 1; }
+.kp-home .plan-view[data-scene3d="ready"] .masterplan { opacity: 0 !important; transition: opacity .8s ease !important; }
+/* On wide screens the tilt lives on the SVG poster (individual `rotate`/`scale` properties) instead of the
+   container, so the WebGL canvas is measured and drawn upright; the camera carries the same roll. */
+@media (min-width: 1100px) {
+  .kp-home .hero-plan, .kp-home .lens-plan { transform: none; }
+  .kp-home .hero-plan > .stage-fill { rotate: -2deg; }
+  .kp-home .lens-plan > .lazy-mount { rotate: -5deg; scale: 1.05; }
+}
+@media (min-width: 1100px) and (prefers-reduced-motion: reduce) {
+  .kp-home .hero-plan > .stage-fill { rotate: -1deg; }
+}
+
+/* ---- Gate 1: the hero model carries the right side (about +26% scale, bleeding to the page edge) ---- */
+@media (min-width: 1100px) {
+  .kp-home .hero-plan { top: 8vh; left: 33.5%; width: 72vw; height: 82vh; }
+}
+/* narrower laptops: the headline runs wider, so the model starts a little further right */
+@media (min-width: 1100px) and (max-width: 1400px) {
+  .kp-home .hero-plan { left: 36%; width: 70vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene3d, .kp-home .plan-view[data-scene3d="ready"] .masterplan { transition: none !important; }
+}
+
+/* Five Lenses layout lives in refine-home.css */

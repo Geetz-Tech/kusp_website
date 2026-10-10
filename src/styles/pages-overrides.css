@@ -1,0 +1,35 @@
+/* Production adjustments to the approved page prototypes (documented deviations) */
+.kp-page .action { min-height: 44px; align-items: center; }
+@media (max-width: 520px) {
+  /* Framework rail scrolls horizontally; keep its full 88px-wide, 64px-tall stage buttons visible */
+  .kp-page .stage-rail { min-height: 64px; flex-shrink: 0; }
+}
+
+.kp-page ul.discipline-ledger, .kp-page ul.why-index { padding-left: 0; list-style: none; }
+.kp-page ul.why-index { margin-bottom: 0; }
+@media (min-width: 801px) {
+  .kp-page .sector-summary { width: min(330px, 60%); }
+}
+
+/* Sectors: larger axonometric micro-world stage */
+.kp-page .sector-art { top: 7%; right: 3%; bottom: 31%; left: 3%; }
+.kp-page .sector-art::after { bottom: 0; }
+.kp-page .sector-summary { bottom: 22.5%; left: 5%; }
+@media (min-width: 801px) {
+  .kp-page .sector-summary { width: min(560px, 80%); font-size: 1.02rem; }
+}
+@media (max-width: 800px) {
+  .kp-page .sector-art { top: 6%; bottom: 40%; }
+  .kp-page .sector-summary { bottom: 30%; }
+}
+@media (max-width: 520px) {
+  .kp-page .sector-art { top: 5%; bottom: 50%; left: 0; right: 0; }
+  .kp-page .sector-summary { bottom: 38%; }
+}
+
+/* UAT: five stages fit the 390px rail without clipping the last label */
+@media (max-width: 520px) {
+  .kp-page .stage-rail { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); overflow-x: visible; }
+  .kp-page .stage-control { flex: none; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; padding: 9px 4px; min-width: 0; }
+  .kp-page .stage-control strong { font-size: .62rem; letter-spacing: 0; overflow-wrap: anywhere; }
+}

@@ -1,0 +1,93 @@
+/* Contact — expert-guided intake sheet. Natural flow on phones; two-column on desktop with the consultant scene alongside. */
+.kp-page .contact-intake { overflow: clip; min-height: 0; padding: max(130px, 15vh) 24px 72px; background: var(--ivory); }
+.ci-layout { display: grid; gap: 36px; }
+.kp-page .ci-left h1 { font-size: clamp(3rem, 13vw, 4.6rem); }
+.ci-guide { margin: 18px 0 0; font-family: var(--serif); font-size: 1.35rem; line-height: 1.2; max-width: 22ch; color: var(--ink); }
+.ci-sub { margin: 14px 0 0; max-width: 46ch; color: var(--muted); font-size: .9rem; line-height: 1.55; }
+.ci-visual { margin: 24px 0 0; overflow: hidden; max-width: 560px; border: 1px solid rgba(23, 22, 20, .3); background: #f5f0e4; }
+.ci-visual figcaption { padding: 10px 12px; border-top: 1px solid rgba(23, 22, 20, .2); font-size: .6rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); min-height: 2.6em; }
+.ci-visual figcaption span { color: var(--burgundy); margin-right: 8px; }
+.cs-scene { display: block; width: 100%; height: auto; aspect-ratio: 600 / 520; }
+
+/* consultant scene: a pose and a plan state per scroll group (data-step on .ci-layout). One short cross-fade with a 6px settle; nothing loops. */
+.cs-pose { opacity: 0; transform: translateY(6px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .7, .2, 1); }
+.ci-layout[data-step="0"] .cs-p0, .ci-layout[data-step="1"] .cs-p1, .ci-layout[data-step="2"] .cs-p2,
+.ci-layout[data-step="3"] .cs-p3, .ci-layout[data-step="4"] .cs-p4 { opacity: 1; transform: none; }
+.cs-l { opacity: 0; transition: opacity .55s ease; }
+.ci-layout[data-step="1"] .cs-l1 { opacity: 1; }
+.ci-layout[data-step="2"] .cs-l1 { opacity: .3; } .ci-layout[data-step="2"] .cs-l2 { opacity: 1; }
+.ci-layout[data-step="3"] .cs-l1 { opacity: .25; } .ci-layout[data-step="3"] .cs-l2 { opacity: .4; } .ci-layout[data-step="3"] .cs-l3 { opacity: 1; }
+.ci-layout[data-step="4"] .cs-l1 { opacity: .35; } .ci-layout[data-step="4"] .cs-l2 { opacity: .6; } .ci-layout[data-step="4"] .cs-l3 { opacity: .9; } .ci-layout[data-step="4"] .cs-l4 { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .cs-pose, .cs-l { transition: none; transform: none; } }
+
+/* the intake sheet: grouped, ruled, square, native controls */
+.ci-form { display: block; }
+.ci-note { margin: 0 0 8px; padding: 12px 0; border-top: 1px solid var(--burgundy); border-bottom: 1px solid var(--line); color: var(--muted); font-size: .82rem; line-height: 1.45; }
+.ci-group { margin: 0; padding: 26px 0 8px; border: 0; border-bottom: 1px solid var(--line); min-width: 0; }
+.ci-group legend { padding: 0; margin-bottom: 14px; font-family: var(--serif); font-size: 1.3rem; line-height: 1.15; color: var(--ink); }
+.ci-group legend span { display: inline-block; margin-right: 10px; color: var(--burgundy); font-family: var(--sans); font-size: .6rem; font-weight: 700; letter-spacing: .15em; }
+.ci-group legend small { display: block; margin-top: 4px; color: var(--muted); font-family: var(--sans); font-size: .72rem; }
+.ci-options { display: grid; grid-template-columns: 1fr; gap: 0; }
+.ci-opt { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 48px; padding: 8px 12px 8px 0; border-top: 1px solid var(--line); cursor: pointer; font-size: .9rem; }
+.ci-opt input { position: absolute; opacity: 0; width: 100%; height: 100%; inset: 0; margin: 0; cursor: pointer; }
+.ci-opt span { position: relative; padding-left: 26px; }
+.ci-opt span::before { content: ""; position: absolute; left: 0; top: 50%; width: 12px; height: 12px; margin-top: -6px; border: 1px solid var(--ink); background: none; }
+.ci-opt input[type="radio"] + span::before { border-radius: 0; }
+.ci-opt input:checked + span::before { background: var(--burgundy); border-color: var(--burgundy); }
+.ci-opt input:checked + span { color: var(--burgundy); font-weight: 700; }
+.ci-opt:hover span { color: var(--burgundy); }
+.ci-opt input:focus-visible + span::before { outline: 2px solid var(--burgundy); outline-offset: 3px; }
+.ci-opt i { color: var(--muted); font-size: .55rem; font-style: normal; font-weight: 700; letter-spacing: .12em; }
+.ci-stages { display: grid; grid-template-columns: 1fr; }
+.ci-help { display: block; margin: 0 0 10px; color: var(--muted); font-size: .84rem; line-height: 1.45; }
+.ci-group textarea, .ci-field input { width: 100%; padding: 12px 0; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; background: none; color: var(--ink); font: inherit; font-size: .95rem; }
+.ci-group textarea { border: 1px solid var(--ink); padding: 12px; resize: vertical; min-height: 130px; }
+.ci-group textarea:focus-visible, .ci-field input:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 2px; }
+.ci-fields { display: grid; gap: 14px; padding-bottom: 14px; }
+.ci-field label { display: block; margin-bottom: 4px; font-size: .62rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.ci-field label small { text-transform: none; letter-spacing: 0; color: var(--muted); font-weight: 400; }
+.ci-submit { padding-top: 24px; }
+.ci-submit .form-submit { min-height: 48px; }
+.ci-status { margin: 14px 0 0; min-height: 2.6em; color: var(--burgundy); font-size: .88rem; line-height: 1.45; font-weight: 600; }
+
+@media (min-width: 700px) { .ci-options--2 { grid-template-columns: 1fr 1fr; column-gap: 28px; } .ci-fields { grid-template-columns: 1fr 1fr; column-gap: 28px; } .ci-stages { grid-template-columns: 1fr 1fr; column-gap: 28px; } }
+@media (min-width: 1100px) {
+  .kp-page .contact-intake { padding: max(150px, 17vh) 4.5vw 24px; }
+  .ci-layout { grid-template-columns: 40% minmax(0, 1fr); column-gap: 5vw; align-items: start; }
+  .ci-left { align-self: stretch; grid-row: 1 / span 2; grid-column: 1; }
+  .ci-form, .ci-contact { grid-column: 2; }
+  .kp-page .ci-left h1 { font-size: clamp(3rem, 5vw, 5.2rem); }
+  .ci-guide { font-size: 1.5rem; }
+  .ci-visual { margin-top: 28px; max-width: none; }
+  .cs-scene { aspect-ratio: 600 / 720; width: min(100%, calc((100vh - var(--header-h) - 120px) * .8333)); min-width: 300px; margin: 0 auto; }
+  .ci-visual { position: sticky; top: calc(var(--header-h) + 16px); }
+}
+@media (min-width: 1100px) {
+  .kp-page .ci-left h1 { font-size: clamp(2.8rem, 4.2vw, 4.4rem); }
+  .ci-guide { margin-top: 12px; }
+  .ci-sub { font-size: .82rem; margin-top: 10px; }
+  .ci-visual { margin-top: 18px; }
+}
+.kp-page .ci-left h1 em { color: var(--burgundy); }
+
+/* closing section: both offices, fine rules, no cards */
+.kp-page .ci-reach { min-height: 0; padding: 40px 24px 96px; background: var(--ivory); border-top: 1px solid var(--burgundy); margin: 0 24px; padding-left: 0; padding-right: 0; }
+.kp-page .ci-reach h2 { margin: 0 0 28px; font-family: var(--serif); font-size: clamp(1.9rem, 6vw, 2.8rem); font-weight: 400; letter-spacing: -.02em; line-height: 1.05; color: var(--ink); }
+.ci-offices { display: grid; gap: 40px; }
+.ci-office { font-style: normal; padding-top: 14px; border-top: 1px solid var(--line); }
+.ci-office__k { margin: 0 0 14px; color: var(--burgundy); font-family: var(--sans); font-size: .62rem; font-weight: 700; letter-spacing: .18em; }
+.ci-office__addr { display: grid; gap: 2px; margin: 0 0 18px; color: var(--ink); font-size: 1.05rem; line-height: 1.45; }
+.ci-office__addr span:first-child { font-weight: 700; }
+.ci-office__links { list-style: none; margin: 0; padding: 0; display: grid; }
+.ci-office__links li { border-top: 1px solid var(--line); }
+.ci-office__links li:last-child { border-bottom: 1px solid var(--line); }
+.ci-office__links a { display: flex; align-items: center; min-height: 48px; color: var(--ink); font-size: 1rem; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
+.ci-office__links a:hover { color: var(--burgundy); }
+.ci-office__links a:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 2px; }
+.ci-office__links .ci-office__wa { color: var(--burgundy); font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; justify-content: space-between; }
+.ci-office__links .ci-office__wa:hover { color: var(--ink); }
+@media (min-width: 760px) { .ci-offices { grid-template-columns: 1fr 1fr; column-gap: 5vw; } }
+@media (min-width: 1100px) {
+  .kp-page .ci-reach { margin: 0 4.5vw; padding: 56px 0 120px; }
+  .ci-form { padding-bottom: 150px; }
+}

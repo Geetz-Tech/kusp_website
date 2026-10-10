@@ -1,0 +1,32 @@
+# dependencies
+node_modules/
+
+# next.js build output
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# local env files (never commit real values; .env.example documents the variables)
+.env*
+!.env.example
+
+# build / test output
+coverage/
+dist/
+build/
+playwright-report/
+test-results/
+
+# local QA evidence and tooling (kept on disk, not part of the production source)
+review/
+.playwright-mcp/
+brand/qa/
+
+# logs and OS / editor files
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.vercel
