@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { OFFICES } from "@/lib/site";
 
 /**
- * Site-wide "Chat with KUSP" launcher: one restrained button that opens a small chooser (UAE / India office).
+ * Site-wide "Chat with KUSP" launcher: one compact icon-only button (tooltip on hover/focus) that opens a small chooser (UAE / India office).
  * Links go straight to the confirmed WhatsApp numbers in a new tab. Non-modal: no focus trap; Escape closes and returns focus.
  */
 export function WhatsAppLauncher() {
   const [open, setOpen] = useState(false);
   const [crowded, setCrowded] = useState(false);
+  const [tipOff, setTipOff] = useState(false); // Escape dismisses the tooltip (WCAG 1.4.13) until the pointer or focus leaves
   const root = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
   const first = useRef<HTMLAnchorElement>(null);
@@ -75,7 +76,7 @@ export function WhatsAppLauncher() {
   }, []);
 
   return (
-    <aside className="wa" data-dodge={crowded && !open ? "true" : undefined} ref={root} aria-label="Chat with KUSP">
+    <aside className="wa" data-dodge={crowded && !open ? "true" : undefined} data-tip-off={tipOff || open ? "true" : undefined} ref={root} aria-label="Chat with KUSP">
       <div className="wa__panel" id="wa-panel" role="group" aria-label="Chat with KUSP on WhatsApp" hidden={!open}>
         {OFFICES.map((o, i) => (
           <a
@@ -93,9 +94,26 @@ export function WhatsAppLauncher() {
           </a>
         ))}
       </div>
-      <button ref={button} type="button" className="wa__btn" aria-expanded={open} aria-controls="wa-panel" onClick={() => setOpen((v) => !v)}>
-        Chat with KUSP
-      </button>
+      <div className="wa__ctl">
+        <button
+          ref={button}
+          type="button"
+          className="wa__btn"
+          aria-label="Chat with KUSP"
+          aria-expanded={open}
+          aria-controls="wa-panel"
+          onClick={() => setOpen((v) => !v)}
+          onKeyDown={(e) => { if (e.key === "Escape" && !open) setTipOff(true); }}
+          onPointerLeave={() => setTipOff(false)}
+          onBlur={() => setTipOff(false)}
+        >
+          <svg className="wa__ico" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+            <path d="M4 5.5h16v10.5H11.5L7 20v-4H4z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M8 9.2h8M8 12.3h5" fill="none" stroke="var(--gold)" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+        <span className="wa__tip" aria-hidden="true">Chat with KUSP</span>
+      </div>
     </aside>
   );
 }

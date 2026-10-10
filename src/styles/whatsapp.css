@@ -1,6 +1,11 @@
-/* Site-wide "Chat with KUSP" launcher: restrained, square, burgundy + ivory (no WhatsApp green). Sits under the header and mobile menu. */
+/* Site-wide "Chat with KUSP" launcher: a compact icon-only square, burgundy + ivory line icon (no WhatsApp green). Sits under the header and mobile menu. */
 .wa { position: fixed; z-index: 50; right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; align-items: flex-end; gap: 8px; font-family: var(--sans); }
-.wa__btn { min-height: 44px; padding: 0 16px; border: 1px solid rgba(241, 236, 223, .55); background: var(--burgundy); color: var(--ivory); font: 700 .66rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; cursor: pointer; }
+.wa__ctl { position: relative; }
+.wa__btn { position: relative; display: grid; place-items: center; width: 46px; height: 46px; padding: 0; border: 1px solid rgba(241, 236, 223, .55); background: var(--burgundy); color: var(--ivory); cursor: pointer; }
+.wa__ico { display: block; }
+.wa__tip { position: absolute; right: 100%; top: 50%; transform: translateY(-50%); margin-right: 0; padding: 7px 14px 7px 12px; border: 1px solid var(--ink); border-right: 0; background: var(--ivory); color: var(--ink); font: 700 .6rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; opacity: 0; visibility: hidden; pointer-events: none; }
+.wa__btn:hover ~ .wa__tip, .wa__btn:focus-visible ~ .wa__tip, .wa__tip:hover { opacity: 1; visibility: visible; pointer-events: auto; }
+.wa[data-tip-off="true"] .wa__tip { opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
 .wa__btn:hover { background: var(--burgundy-deep); }
 .wa__btn:focus-visible, .wa__opt:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 .wa__panel { width: min(280px, calc(100vw - 28px)); border: 1px solid var(--ink); background: var(--ivory); color: var(--ink); }
@@ -11,12 +16,11 @@
 .wa__k { color: var(--burgundy); font-size: .58rem; font-weight: 700; letter-spacing: .16em; }
 .wa__n { font-family: var(--serif); font-size: 1.15rem; line-height: 1.2; }
 .wa__cta { margin-top: 4px; color: var(--burgundy); font-size: .62rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-@media (max-width: 640px) { .wa__btn { padding: 0 14px; font-size: .62rem; } }
+@media (hover: none) { .wa__tip { display: none; } }
 
 /* when a control of the page sits in the launcher's corner, tuck to a slim 18px edge tab (narrower than the 24px page margin, so it never touches content) */
 .wa { transition: transform .25s ease; }
 .wa[data-dodge="true"]:not(:hover):not(:focus-within) { transform: translateX(calc(100% - 18px + max(14px, env(safe-area-inset-right)))); }
 @media (prefers-reduced-motion: reduce) { .wa { transition: none; } }
-.wa[data-dodge="true"]:not(:hover):not(:focus-within) .wa__btn { color: transparent; }
+.wa[data-dodge="true"]:not(:hover):not(:focus-within) .wa__ico { opacity: 0; }
 .wa[data-dodge="true"]:not(:hover):not(:focus-within) .wa__btn::before { content: "‹"; position: absolute; left: 4px; top: 50%; margin-top: -.62em; color: var(--ivory); font-size: 1.1rem; line-height: 1; }
-.wa__btn { position: relative; }

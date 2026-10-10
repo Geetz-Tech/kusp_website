@@ -21,7 +21,7 @@ export const OFFICES = [
   {
     id: "india",
     label: "INDIA",
-    address: ["KUSP", "P 41/47 Prathabasimhapuram", "Srinevasapuram", "Thanjavur - 613009", "India"],
+    address: ["KUSP", "P 41/47 Prathabasimhapuram", "Srinevasapuram", "Thanjavur, Tamil Nadu - 613009", "India"],
     phone: "+91 96775 70887",
     phoneHref: "tel:+919677570887",
     whatsappHref: `https://wa.me/919677570887?text=${WA_TEXT}`,

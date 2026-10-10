@@ -39,3 +39,6 @@ AGENTS.md
 Brochure/
 KUSP_Brochure_A5_Digital.pdf
 public/brand.zip
+
+# local deployment archive (built from source for Hostinger; never committed)
+KUSP_hostinger_deploy.zip
