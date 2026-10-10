@@ -1,0 +1,18 @@
+/* Privacy Policy: a quiet, readable single column. */
+.kp-page .privacy { min-height: 0; padding: max(130px, 15vh) 24px 88px; background: var(--ivory); }
+.pv-wrap { max-width: 760px; }
+.kp-page .privacy h1 { font-size: clamp(2.8rem, 11vw, 4.4rem); }
+.kp-page .privacy h1 em { color: var(--burgundy); }
+.pv-meta { margin: 14px 0 0; color: var(--muted); font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.pv-lead { margin: 28px 0 0; max-width: 56ch; color: var(--ink); font-size: 1.02rem; line-height: 1.55; }
+.pv-body { margin-top: 36px; border-top: 1px solid var(--burgundy); }
+.pv-body section { padding: 24px 0 26px; border-bottom: 1px solid var(--line); }
+.pv-body h2 { margin: 0 0 10px; font-family: var(--serif); font-size: 1.3rem; font-weight: 400; letter-spacing: -.01em; line-height: 1.2; color: var(--ink); }
+.pv-body p, .pv-body li { max-width: 62ch; color: var(--ink); font-size: .96rem; line-height: 1.6; }
+.pv-body p { margin: 0 0 10px; }
+.pv-body ul { margin: 0 0 10px; padding-left: 20px; }
+.pv-body li { margin: 2px 0; }
+.pv-body a { color: var(--burgundy); font-weight: 600; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.pv-body a:hover { color: var(--ink); }
+.pv-body a:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 2px; }
+@media (min-width: 1100px) { .kp-page .privacy { padding: max(150px, 17vh) 4.5vw 120px; } }

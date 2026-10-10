@@ -14,6 +14,7 @@ export function Footer() {
             {item.label}
           </Link>
         ))}
+        <Link href="/privacy">Privacy Policy</Link>
       </nav>
       <span className="footer-note">Planning · Design · Spatial Intelligence · Infrastructure · Advisory</span>
     </footer>

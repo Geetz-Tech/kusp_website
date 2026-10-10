@@ -34,3 +34,8 @@ Thumbs.db
 # internal design / assistant notes (kept on disk, not part of the public source)
 KUSP_final_design_handoff/
 AGENTS.md
+
+# local marketing assets (kept on disk, not part of the website source)
+Brochure/
+KUSP_Brochure_A5_Digital.pdf
+public/brand.zip

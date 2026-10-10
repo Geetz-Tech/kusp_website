@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Hanken_Grotesk, Libre_Caslon_Text } from "next/font/google";
 import "./globals.css";
 import "@/styles/art.css";
+import "@/styles/whatsapp.css";
 import { JsonLd } from "@/components/primitives/JsonLd";
+import { WhatsAppLauncher } from "@/components/layout/WhatsAppLauncher";
 import { OG_IMAGE, siteSchema } from "@/lib/seo";
 import { SITE_DESCRIPTION, SITE_URL } from "@/lib/site";
 
@@ -46,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <JsonLd data={siteSchema()} />
         {children}
+        <WhatsAppLauncher />
       </body>
     </html>
   );

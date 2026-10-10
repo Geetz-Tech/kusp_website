@@ -48,7 +48,17 @@
 .ci-field label small { text-transform: none; letter-spacing: 0; color: var(--muted); font-weight: 400; }
 .ci-submit { padding-top: 24px; }
 .ci-submit .form-submit { min-height: 48px; }
-.ci-status { margin: 14px 0 0; min-height: 2.6em; color: var(--burgundy); font-size: .88rem; line-height: 1.45; font-weight: 600; }
+.ci-status { margin: 14px 0 0; min-height: 2.6em; color: var(--burgundy); font-size: .88rem; line-height: 1.45; }
+.ci-status strong { display: block; font-weight: 700; }
+.ci-status span { display: block; margin-top: 4px; color: var(--ink); font-weight: 400; }
+.ci-status .ci-status__links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 8px; }
+.ci-status a { display: inline-flex; align-items: center; min-height: 44px; color: var(--burgundy); font-weight: 700; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.ci-status a:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 2px; }
+.ci-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.ci-consent { margin-bottom: 18px; border-bottom: 1px solid var(--line); align-items: flex-start; padding: 14px 0; }
+.ci-consent span { padding-left: 26px; font-size: .88rem; line-height: 1.4; }
+.ci-consent span::before { top: 20px; margin-top: 0; }
+.form-submit:disabled { opacity: .7; cursor: progress; }
 
 @media (min-width: 700px) { .ci-options--2 { grid-template-columns: 1fr 1fr; column-gap: 28px; } .ci-fields { grid-template-columns: 1fr 1fr; column-gap: 28px; } .ci-stages { grid-template-columns: 1fr 1fr; column-gap: 28px; } }
 @media (min-width: 1100px) {
@@ -91,3 +101,9 @@
   .kp-page .ci-reach { margin: 0 4.5vw; padding: 56px 0 120px; }
   .ci-form { padding-bottom: 150px; }
 }
+
+/* consent: the checkbox hit-area is only the box, so the Privacy Policy link inside the label stays clickable */
+.ci-consent input { inset: 0 auto 0 0; width: 26px; height: 100%; }
+.ci-consent a { color: var(--burgundy); font-weight: 600; text-underline-offset: 3px; position: relative; z-index: 1; }
+.ci-consent a:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 2px; }
+.ci-consent a:hover { color: var(--ink); }

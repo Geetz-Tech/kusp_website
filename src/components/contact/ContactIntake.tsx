@@ -4,31 +4,14 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Eyebrow, SectionLabel } from "@/components/primitives/SectionLabel";
 import { ConsultantScene } from "./ConsultantScene";
 import { CONTACT_EMAIL, CONTACT_EMAIL_HREF, OFFICES } from "@/lib/site";
+import { ENQUIRY_STAGES, ENQUIRY_SECTORS as SECTORS, ENQUIRY_SUPPORT as SUPPORT } from "@/lib/enquiry";
 
 /**
  * Expert-guided enquiry — an architectural intake sheet, NOT a wizard: the whole structure is visible and native.
- * Not wired to a backend yet: nothing is sent, stored or opened (no fetch, no mailto, no endpoint). A valid submit says it is unavailable.
+ * Submits to POST /api/contact (server-side email to the KUSP inbox). Nothing is stored in the browser; the success message is only shown after the server confirms delivery.
  * The consultant scene on the left follows the group in view (scroll only); it is decorative and carries no form meaning.
  */
-const SECTORS: [string, string][] = [
-  ["city", "City / Community"],
-  ["industrial", "Industrial / Logistics"],
-  ["transport", "Transport / Infrastructure"],
-  ["energy", "Energy / Utilities"],
-  ["civic", "Government / Civic"],
-  ["environment", "Environment / Climate"],
-  ["heritage", "Heritage / Tourism"],
-  ["digital", "Digital / Smart Places"],
-];
-const SUPPORT: [string, string][] = [
-  ["planning", "Planning & Urban Design"],
-  ["economics", "Economics & Advisory"],
-  ["geospatial", "Geospatial Intelligence"],
-  ["infrastructure", "Infrastructure & Mobility"],
-  ["sustainability", "Sustainability & Social Impact"],
-  ["unsure", "Not sure yet"],
-];
-const STAGES = ["Exploring", "Feasibility", "Planning", "Approval / Procurement", "Implementation"];
+const STAGES = ENQUIRY_STAGES;
 const GROUPS = ["What are you planning?", "What support do you need?", "What stage are you at?", "Tell us briefly about the challenge", "Your details"];
 
 export function ContactIntake() {
@@ -37,7 +20,9 @@ export function ContactIntake() {
   const [step, setStep] = useState(0);
   const [sector, setSector] = useState<string | null>(null);
   const [stage, setStage] = useState<number | null>(null);
-  const [notice, setNotice] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const shownAt = useRef(0);
+  useEffect(() => { shownAt.current = Date.now(); }, []);
 
   /* the group crossing the reading line sets the field's state; stopping scrolling keeps it */
   useEffect(() => {
@@ -58,14 +43,45 @@ export function ContactIntake() {
     return ok;
   };
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!checkSupport() || !e.currentTarget.checkValidity()) {
-      setNotice(false);
-      e.currentTarget.reportValidity();
+    const form = e.currentTarget;
+    if (status === "sending") return; // duplicate-submit guard
+    if (!checkSupport() || !form.checkValidity()) {
+      setStatus("idle");
+      form.reportValidity();
       return;
     }
-    setNotice(true);
+    const fd = new FormData(form);
+    const text = (k: string) => String(fd.get(k) ?? "");
+    const payload = {
+      sector: text("sector"),
+      support: fd.getAll("support").map(String),
+      stage: text("stage"),
+      challenge: text("challenge"),
+      name: text("name"),
+      organisation: text("organisation"),
+      email: text("email"),
+      phone: text("phone"),
+      consent: fd.get("consent") === "on",
+      website: text("website"),
+      elapsed: Date.now() - shownAt.current,
+    };
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      const data = (await res.json().catch(() => null)) as { ok?: boolean } | null;
+      if (res.ok && data?.ok === true) {
+        form.reset();
+        setSector(null);
+        setStage(null);
+        setStatus("sent");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   };
 
   const dataAttrs = { "data-step": String(step) };
@@ -149,9 +165,40 @@ export function ContactIntake() {
             </div>
           </fieldset>
 
+          <div className="ci-hp" aria-hidden="true">
+            <label>Website <input type="text" name="website" tabIndex={-1} autoComplete="off" /></label>
+          </div>
+
           <div className="ci-submit">
-            <button type="submit" className="form-submit">Submit enquiry <b aria-hidden="true">↗</b></button>
-            <p className="ci-status" role="status">{notice ? "Enquiry submission is currently unavailable." : ""}</p>
+            <label className="ci-opt ci-consent">
+              <input type="checkbox" name="consent" required />
+              <span>I agree that KUSP may use the information provided to respond to this enquiry. See our <a href="/privacy" target="_blank" rel="noopener">Privacy Policy<span className="sr-only"> (opens in a new tab)</span></a>.</span>
+            </label>
+            <button type="submit" className="form-submit" disabled={status === "sending"} aria-busy={status === "sending"}>
+              {status === "sending" ? "Sending…" : <>Submit enquiry <b aria-hidden="true">↗</b></>}
+            </button>
+            <div className="ci-status" role="status">
+              {status === "sent" ? (
+                <>
+                  <strong>Thank you. Your enquiry has been sent to KUSP.</strong>
+                  <span>We&apos;ll review the details you&apos;ve shared and respond using the contact information provided.</span>
+                </>
+              ) : null}
+              {status === "error" ? (
+                <>
+                  <strong>Your enquiry could not be sent. Please try again or contact KUSP directly.</strong>
+                  <span className="ci-status__links">
+                    <a href={CONTACT_EMAIL_HREF}>{CONTACT_EMAIL}</a>
+                    {OFFICES.map((o) => (
+                      <a key={o.id} href={o.whatsappHref} target="_blank" rel="noopener noreferrer">
+                        {o.whatsappLabel} <b aria-hidden="true">↗</b>
+                        <span className="sr-only"> on WhatsApp (opens in a new tab)</span>
+                      </a>
+                    ))}
+                  </span>
+                </>
+              ) : null}
+            </div>
           </div>
         </form>
       </div>
